@@ -27,6 +27,7 @@ video{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    z-index: 2;
 }
 
 .record-btn{
@@ -58,6 +59,7 @@ video{
     bottom: 2rem;
     color: white;
     left: 3rem;
+    z-index: 2;
 }
 
 .filter-cont{
@@ -66,6 +68,8 @@ video{
     height: 16rem;
     width: 4rem;
     top: calc((100vh - 16rem)/2);
+    left: 3rem;
+    z-index: 2;
 }
 
 .filter{
@@ -73,7 +77,7 @@ video{
     background-image: url("https://picsum.photos/200");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    background-position: center;
+    background-blend-mode: color-burn;
 }
 
 .orange{
@@ -87,4 +91,24 @@ video{
 }
 .transparent{
     background-color: transparent;
+}
+
+.filter-layer{
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    /* background-color: #ffc0cb57; */
+}
+
+.material-icons{
+    color: white;
+    font-size: 3rem;
+}
+.gallery{
+    position: absolute;
+    bottom: 7rem;
+    right: 6rem;
+    z-index: 2;
 }
