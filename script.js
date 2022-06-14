@@ -5,6 +5,8 @@ let transparentColor = "transparent"
 let recordBtnCont = document.querySelector(".record-btn-cont")
 let recordBtn = document.querySelector(".record-btn")
 let timer = document.querySelector(".timer")
+let filterLayer = document.querySelector(".filter-layer")
+let allFilters = document.querySelectorAll(".filter")
 
 let recorder
 let chunks = []
@@ -46,6 +48,7 @@ navigator.mediaDevices.getUserMedia(constraints)
 
 // click photo
 captureBtnCont.addEventListener("click", () => {
+    captureBtn.classList.add("scale-capture")
     let canvas = document.createElement("canvas")
     let tool = canvas.getContext("2d")
     canvas.width = video.videoWidth
@@ -61,18 +64,24 @@ captureBtnCont.addEventListener("click", () => {
     let img = document.createElement("img")
     img.src = imageUrl
     document.body.append(img)
+
+    setTimeout(() => {
+        captureBtn.classList.remove("scale-capture")
+    }, 310)
 })
 // record a video
 recordBtnCont.addEventListener("click", () =>{
     shouldRecord = !shouldRecord
     if(shouldRecord){
         // start recording
+        recordBtn.classList.add("scale-record")
         recorder.start()
         // start timer
         startTimer()
     }
     else{
         // stop recorder
+        recordBtn.classList.remove("scale-record")
         recorder.stop()
         // stop timer
         stopTimer()
@@ -105,6 +114,7 @@ function startTimer(){
     }
 
     timerID = setInterval(displayTimer, 1000)
+    counter = 0
 
 }
 
@@ -113,3 +123,12 @@ function stopTimer(){
     timer.innerText = "00:00:00"
     timer.style.display = 'none'
 }
+
+// Adding Filters
+
+allFilters.forEach((filterElem) => {
+    filterElem.addEventListener('click', () => {
+        transparentColor = getComputedStyle(filterElem).getPropertyValue('background-color')
+        filterLayer.style.backgroundColor = transparentColor
+    })
+})
