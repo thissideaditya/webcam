@@ -1,3 +1,10 @@
+let gallery = document.querySelector(".gallery")
+gallery.addEventListener("click", () => {
+    location.assign("./components/gallery/gallery.html")
+})
+
+
+var uid = new ShortUniqueId();
 let video = document.querySelector("video")
 let captureBtnCont = document.querySelector(".capture-btn-cont")
 let captureBtn = document.querySelector(".capture-btn")
@@ -38,11 +45,25 @@ navigator.mediaDevices.getUserMedia(constraints)
         let videoURL = URL.createObjectURL(blob)
         console.log(videoURL)
 
-        let a = document.createElement('a')
-        a.href = videoURL
-        a.download = 'myVideo.mp4'
-        a.click()
+        // let a = document.createElement('a')
+        // a.href = videoURL
+        // a.download = 'myVideo.mp4'
+        // a.click()
 
+        // store in database
+        if(db){
+            let videoId = uid()
+            let dbTransaction = db.transaction("video", "readwrite")
+            let videoStore = dbTransaction.objectStore("video")
+            let videoEntry = {
+                id: `vid-${videoId}`,
+                url: videoURL
+            }
+            let addRequest = videoStore.add(videoEntry)
+            addRequest.onsuccess = () => {
+                console.log("video added to db successfully")
+            }
+        }
     })
 })
 
@@ -64,6 +85,20 @@ captureBtnCont.addEventListener("click", () => {
     let img = document.createElement("img")
     img.src = imageUrl
     document.body.append(img)
+
+    if(db){
+        let imageId = uid()
+        let dbTransaction = db.transaction("image", "readwrite")
+        let imageStore = dbTransaction.objectStore("image")
+        let imageEntry = {
+            id: `img-${imageId}`,
+            url: imageUrl
+        }
+        let addRequest = imageStore.add(imageEntry)
+        addRequest.onsuccess = () => {
+            console.log("Image added to db successfully")
+        }
+    }
 
     setTimeout(() => {
         captureBtn.classList.remove("scale-capture")
