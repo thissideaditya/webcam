@@ -3,6 +3,7 @@ backBtn.addEventListener("click", () => {
   location.assign("../../index.html");
 });
 
+
 setTimeout(() => {
   if (db) {
     let imageDbTransaction = db.transaction("image", "readonly");
@@ -22,7 +23,7 @@ setTimeout(() => {
           <div class="data">
               <img src="${url}"/>
           </ div>
-          <div class="data-2">
+          <div class="data-2" id='${imageObj.id}'>
               <span class="material-icons delete">
                   delete
                   </span>
@@ -48,17 +49,18 @@ setTimeout(() => {
     videoRequest.onsuccess = () => {
       let videoResult = videoRequest.result;
       let galleryCont = document.querySelector(".gallery-cont");
+
       videoResult.forEach((videoObj) => {
         let videoElem = document.createElement("div");
         videoElem.setAttribute("class", "captured");
         videoElem.setAttribute("id", videoObj.id);
-        let url = videoObj.url;
+        let url = URL.createObjectURL(videoObj.blobData);
 
         videoElem.innerHTML = `
           <div class="data">
               <video autoplay loop src="${url}" alt="media"></video>
           </ div>
-          <div class="data-2">
+          <div class="data-2" id='${videoObj.id}'>
               <span class="material-icons delete">
                   delete
                   </span>
@@ -69,7 +71,7 @@ setTimeout(() => {
 
           `;
         galleryCont.appendChild(videoElem);
-
+        
         let deleteBtn = videoElem.querySelector(".delete");
         deleteBtn.addEventListener("click", deleteListener);
 
@@ -98,8 +100,8 @@ function deleteListener(e) {
     imageStore.delete(id);
 
   }
-  // remove from ui
-  e.target.parentElement.remove();
+  
+  document.querySelector(`#${id}`).remove()
 
 }
 

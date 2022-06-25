@@ -1,6 +1,6 @@
 let gallery = document.querySelector(".gallery")
 gallery.addEventListener("click", () => {
-    location.assign("./components/gallery/gallery.html")
+    location.assign("./assets/gallery/gallery.html")
 })
 
 
@@ -57,7 +57,7 @@ navigator.mediaDevices.getUserMedia(constraints)
             let videoStore = dbTransaction.objectStore("video")
             let videoEntry = {
                 id: `vid-${videoId}`,
-                url: videoURL
+                blobData: blob
             }
             let addRequest = videoStore.add(videoEntry)
             addRequest.onsuccess = () => {
