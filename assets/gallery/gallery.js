@@ -58,7 +58,7 @@ setTimeout(() => {
 
         videoElem.innerHTML = `
           <div class="data">
-              <video autoplay loop src="${url}" alt="media"></video>
+              <video autoplay muted loop src="${url}" alt="media"></video>
           </ div>
           <div class="data-2" id='${videoObj.id}'>
               <span class="material-icons delete">
@@ -71,7 +71,7 @@ setTimeout(() => {
 
           `;
         galleryCont.appendChild(videoElem);
-        
+
         let deleteBtn = videoElem.querySelector(".delete");
         deleteBtn.addEventListener("click", deleteListener);
 
